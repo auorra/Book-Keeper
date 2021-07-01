@@ -16,3 +16,18 @@ function showModal() {
 modalShow.addEventListener('click', showModal);
 modalClose.addEventListener('click', () => modal.classList.remove('show-modal'));
 window.addEventListener('click', (e) => (e.target === modal ? modal.classList.remove('show-modal') : false));
+
+
+//Handle Data from Form
+function storeBookmark(e){
+	e.preventDefault();
+	const nameValue = websiteNameEl.value;
+	let urlValue = websiteUrlEl.value;
+	if(!urlValue.includes('http://')) {
+		urlValue = `https://${urlValue}`;
+	}
+	console.log(nameValue, urlValue);
+}
+
+// Event Listener
+bookmarkForm.addEventListener('submit', storeBookmark);
