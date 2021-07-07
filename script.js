@@ -32,6 +32,7 @@ function validate(nameValue, urlValue) {
 	}
 	//Valid
 	return true;
+	//update
 }
 
 //Handle Data from Form
