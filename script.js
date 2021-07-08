@@ -6,6 +6,8 @@ const websiteNameEl = document.getElementById('website-name');
 const websiteUrlEl = document.getElementById('website-url');
 const bookmarksContainer = document.getElementById('bookmarks-container');
 
+let bookmarks = [];
+
 // Show Modal, Focus on Input
 function showModal() {
 	modal.classList.add('show-modal');
@@ -32,7 +34,24 @@ function validate(nameValue, urlValue) {
 	}
 	//Valid
 	return true;
-	//update
+	
+}
+
+//Fetch Bookmarks
+function fetchBookmarks() {
+	//Get bookmarks from localStorage if available
+	if (localStorage.getItem('bookmarks')) {
+		bookmarks = JSON.parse(localStorage.getItem('bookmarks'));
+	} else {
+		//Create bookmarks array in localStorage
+		bookmarks = [{
+			name: 'Farah Karmand',
+			url: 'https://auorra.github.io/farah/',
+			},
+		];
+		localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+	}
+	console.log(bookmarks);
 }
 
 //Handle Data from Form
@@ -43,11 +62,22 @@ function storeBookmark(e){
 	if(!urlValue.includes('http://')) {
 		urlValue = `https://${urlValue}`;
 	}
-	console.log(nameValue, urlValue);
 	if (!validate(nameValue, urlValue)) {
 		return false;
 	}
+	const bookmark = {
+		name: nameValue,
+		url: urlValue,
+	};
+	bookmarks.push(bookmark);
+	localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+	fetchBookmarks();
+	bookmarkForm.reset();
+	websiteNameEl.focus();
 }
 
 // Event Listener
 bookmarkForm.addEventListener('submit', storeBookmark);
+
+//On Load, Fetch Bookmarks
+fetchBookmarks();
